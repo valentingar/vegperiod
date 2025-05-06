@@ -120,7 +120,10 @@ NULL
 
   start <- start_doys$values
 
-  return(start)
+  stopifnot("Menzel method could not find valid start dates for all years!" =
+              all(!is.na(start)))
+
+  start
 }
 
 
