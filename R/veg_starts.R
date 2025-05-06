@@ -107,8 +107,19 @@ NULL
   df$start <- df$HeatSum >= df$TCrit
 
   # determine first of start candidates
-  start <- utils::stack(tapply(df$DOY[df$start],
-                        df$year[df$start], FUN=min))$values
+  start_doys <- utils::stack(tapply(df$DOY[df$start],
+                        df$year[df$start], FUN=min))
+
+  start_doys$ind <- as.numeric(as.character(start_doys$ind))
+
+  start_doys <- merge(start_doys,
+                    data.frame(ind = sort(unique(df$year))),
+                    by = "ind",
+                    all.y = TRUE)
+
+
+  start <- start_doys$values
+
   return(start)
 }
 
